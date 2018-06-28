@@ -1,0 +1,22 @@
+{
+  "name": "parcel-reader",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "multer": "^1.3.1",
+    "tesseractocr": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
