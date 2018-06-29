@@ -1,7 +1,3 @@
-const fs = require('fs')
-const video = document.querySelector('#camera-stream')
-const image = document.querySelector('#snap')
-const controls = document.querySelector('.controls')
 const take_photo_btn = document.querySelector('#take-photo')
 const canvas = document.querySelector('#canvas')
 let imageCapture
@@ -19,31 +15,32 @@ if (!navigator.getMedia) {
     {
       video: true
     },
-    function(stream) {
+    function (stream) {
       const videoTrack = stream.getVideoTracks()[0]
       imageCapture = new ImageCapture(videoTrack)
     },
-    function(err) {
+    function (err) {
       console.error(err)
-      // displayErrorMessage('There was an error with accessing the camera stream: ' + err.name, err)
     }
   )
 }
 
-take_photo_btn.addEventListener('click', function(e) {
+take_photo_btn.addEventListener('click', function (e) {
   imageCapture
     .takePhoto()
     .then(blob => {
-      fs.writeFileSync('picture.png', Buffer.from(new Uint8Array(blob)))
-      return createImageBitmap(blob)
-    })
-    .then(imageBitmap => {
-      drawCanvas(canvas, imageBitmap)
+      const formData = new FormData();
+      formData.append('photo', blob)
+
+      fetch('http://localhost:3000/read', {
+        method: 'POST',
+        body: formData
+      }).catch(err => console.log(err))
+
     })
 })
 
 const drawCanvas = (canvas, img) => {
-  console.log(canvas)
   canvas.width = getComputedStyle(canvas).width.split(`px`)[0]
   canvas.height = getComputedStyle(canvas).height.split(`px`)[0]
   let ratio = Math.min(canvas.width / img.width, canvas.height / img.height)

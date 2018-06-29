@@ -28,13 +28,15 @@ server.get('/', (req, res) => {
   res.render('index', { output: textOutput })
 })
 
-server.post('/read', upload.single("file"), (req, res) => {
+let type = upload.single('photo')
+
+server.post('/read', type, (req, res) => {
   const tempPath = req.file.path
   const targetPath = path.join(__dirname, "./uploads/image.png")
-
+  
   fs.rename(tempPath, targetPath, err => {
     if (err) return handleError(err, res)
-
+    
     read(targetPath, (err, text) => {
       if (err) {
         throw err
