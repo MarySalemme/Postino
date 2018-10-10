@@ -19,10 +19,13 @@ take_photo_btn.addEventListener('click', function (e) {
     .then(blob => {
       const formData = new FormData();
       formData.append('photo', blob)
+      console.log('hashfshdf')
 
       fetch('http://localhost:3000/read', {
         method: 'POST',
-        body: formData
+        body: formData,
+      }).then(res => {
+        location.href = res.url;
       }).catch(err => console.log(err))
     })
 })

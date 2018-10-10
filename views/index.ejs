@@ -12,8 +12,13 @@
 <body>
   <h3>Postino</h3>
 
-  <div>
-    <%= output %>
+  <div id="confirmation">
+    <form action="/confirm" method="post">
+      <textarea name="user-input" cols="40" rows="10">
+        <%=output%>
+      </textarea>
+      <input type="submit" value="Confirm">
+    </form>
   </div>
   
   <div class="container">
