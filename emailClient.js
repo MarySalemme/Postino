@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const dotenv = require('dotenv').config();
 
 nodemailer.createTestAccount((err, account) => {
     const transporter = nodemailer.createTransport({
@@ -6,7 +7,7 @@ nodemailer.createTestAccount((err, account) => {
         port: 587,
         auth: {
             user: 'SMTP_Injection',
-            pass: 'blabla'
+            pass: process.env.SPARK_API_KEY
         }
     });
 
