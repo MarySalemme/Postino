@@ -12,19 +12,22 @@
 <body>
   <h3>Postino</h3>
 
-  <div>
-    <%= output %>
+  <div id="confirmation">
+    <form action="/confirm" method="post">
+      <!-- <textarea cols="40" rows="10">
+        <%=output%>
+      </textarea> -->
+      <input id="blah" type="text" value="helloThere">
+      <input type="submit" value="Confirm">
+    </form>
   </div>
 
   <div class="container">
-
 
     <div class="controls">
       <a href="#" id="take-photo" title="Take Photo"> Take Photo </a>
     </div>
     <canvas id="canvas"></canvas>
-
-
   </div>
 </body>
 

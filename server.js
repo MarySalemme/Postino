@@ -21,6 +21,7 @@ const handleError = (err, res) => {
 
 const server = express()
 
+server.use(express.json())
 server.set('view engine', 'ejs')
 server.use(express.static('public'))
 
@@ -28,25 +29,36 @@ server.get('/', (req, res) => {
   res.render('index', { output: textOutput })
 })
 
+
 let type = upload.single('photo')
 
+
 server.post('/read', type, (req, res) => {
+  console.log('Recieved photo')
   const tempPath = req.file.path
   const targetPath = path.join(__dirname, "./uploads/image.png")
-  
+
   fs.rename(tempPath, targetPath, err => {
     if (err) return handleError(err, res)
-    
+
     read(targetPath, (err, text) => {
       if (err) {
         throw err
       }
       else {
-        textOutput = text
+        textOutput = text.trim()
+        console.log(textOutput)
         res.redirect('/')
       }
     })
   })
+})
+
+const formMiddleware = multer();
+
+server.post('/confirm', formMiddleware.fields([]), (req, res) => {
+  console.log(req.body)
+  res.sendStatus(200)
 })
 
 server.listen(port, () => {
