@@ -1,11 +1,28 @@
-const sgMail = require('@sendgrid/mail')
+const nodemailer = require('nodemailer');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const msg = {
-  to: 'jansherkhan@gmail.com',
-  from: 'test@example.com',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-}
-sgMail.send(msg)
+nodemailer.createTestAccount((err, account) => {
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.sparkpostmail.com',
+        port: 587,
+        auth: {
+            user: 'SMTP_Injection',
+            pass: 'blabla'
+        }
+    });
+
+    let mailOptions = {
+        from: '"Mary the postino" <hello@marysalemme.com>',
+        to: 'jamesransome@msn.com',
+        subject: 'Hello from Postino',
+        text: 'Bitch you got mail',
+        html: '<b>Postino</b>'
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+
+    });
+});

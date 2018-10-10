@@ -1,29 +1,17 @@
 const take_photo_btn = document.querySelector('#take-photo')
-const canvas = document.querySelector('#canvas')
+const video = document.querySelector('#video')
 let imageCapture
 
-navigator.getMedia =
-  navigator.mediaDevices.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia ||
-  navigator.msGetUserMedia
-
-if (!navigator.getMedia) {
-  displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.")
-} else {
-  navigator.getUserMedia(
-    {
-      video: true
-    },
-    function (stream) {
-      const videoTrack = stream.getVideoTracks()[0]
-      imageCapture = new ImageCapture(videoTrack)
-    },
-    function (err) {
-      console.error(err)
-    }
-  )
-}
+navigator.mediaDevices.getUserMedia(
+  {
+    video: true
+  }).then(stream => {
+    video.srcObject = stream
+    const videoTrack = stream.getVideoTracks()[0]
+    imageCapture = new ImageCapture(videoTrack)
+  }).catch(function (err) {
+    console.error(err)
+  })
 
 take_photo_btn.addEventListener('click', function (e) {
   imageCapture
@@ -39,16 +27,5 @@ take_photo_btn.addEventListener('click', function (e) {
       }).then(res => {
         location.href = res.url;
       }).catch(err => console.log(err))
-
     })
 })
-
-const drawCanvas = (canvas, img) => {
-  canvas.width = getComputedStyle(canvas).width.split(`px`)[0]
-  canvas.height = getComputedStyle(canvas).height.split(`px`)[0]
-  let ratio = Math.min(canvas.width / img.width, canvas.height / img.height)
-  let x = (canvas.width - img.width * ratio) / 2
-  let y = (canvas.height - img.height * ratio) / 2
-  canvas.getContext(`2d`).clearRect(0, 0, canvas.width, canvas.height)
-  canvas.getContext(`2d`).drawImage(img, 0, 0, img.width, img.height, x, y, img.width * ratio, img.height * ratio)
-}
