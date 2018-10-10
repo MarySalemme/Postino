@@ -21,7 +21,7 @@ const handleError = (err, res) => {
 
 const server = express()
 
-server.use(express.json())
+server.use(express.urlencoded({ extended: true }))
 server.set('view engine', 'ejs')
 server.use(express.static('public'))
 
@@ -54,9 +54,7 @@ server.post('/read', type, (req, res) => {
   })
 })
 
-const formMiddleware = multer();
-
-server.post('/confirm', formMiddleware.fields([]), (req, res) => {
+server.post('/confirm', (req, res) => {
   console.log(req.body)
   res.sendStatus(200)
 })
