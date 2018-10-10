@@ -4,6 +4,9 @@ const express = require('express')
 const multer = require("multer")
 const read = require('tesseractocr')
 
+const say = require('say')
+
+
 const port = process.env.PORT || 3000
 
 let textOutput
@@ -48,6 +51,7 @@ server.post('/read', type, (req, res) => {
       else {
         textOutput = text.trim()
         console.log(textOutput)
+        say.speak(textOutput)
         res.redirect('/')
       }
     })
