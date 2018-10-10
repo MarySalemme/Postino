@@ -33,16 +33,17 @@ let type = upload.single('photo')
 server.post('/read', type, (req, res) => {
   const tempPath = req.file.path
   const targetPath = path.join(__dirname, "./uploads/image.png")
-  
+
   fs.rename(tempPath, targetPath, err => {
     if (err) return handleError(err, res)
-    
+
     read(targetPath, (err, text) => {
       if (err) {
         throw err
       }
       else {
         textOutput = text
+        console.log(textOutput);
         res.redirect('/')
       }
     })
