@@ -8,11 +8,12 @@ const say = require('say')
 
 const emailList = require('./emailList.js')
 const fuzzySearch = require('./searcher') 
+const emailer = require('./emailClient')
 
 
 const port = process.env.PORT || 3000
 
-let results
+let result
 
 const upload = multer({
   dest: "./uploads"
@@ -32,7 +33,7 @@ server.set('view engine', 'ejs')
 server.use(express.static('public'))
 
 server.get('/', (req, res) => {
-  res.render('index', { output: results })
+  res.render('index', { output: result })
 })
 
 
@@ -55,6 +56,7 @@ server.post('/read', type, (req, res) => {
         const textOutput = text.trim()
         result = fuzzySearch(emailList, textOutput)
         say.speak(textOutput)
+        emailer(result)
         res.redirect('/')
       }
     })
