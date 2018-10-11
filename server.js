@@ -6,10 +6,13 @@ const read = require('tesseractocr')
 
 const say = require('say')
 
+const emailList = require('./emailList.js')
+const fuzzySearch = require('./searcher') 
+
 
 const port = process.env.PORT || 3000
 
-let textOutput
+let results
 
 const upload = multer({
   dest: "./uploads"
@@ -29,7 +32,7 @@ server.set('view engine', 'ejs')
 server.use(express.static('public'))
 
 server.get('/', (req, res) => {
-  res.render('index', { output: textOutput })
+  res.render('index', { output: results })
 })
 
 
@@ -49,8 +52,8 @@ server.post('/read', type, (req, res) => {
         throw err
       }
       else {
-        textOutput = text.trim()
-        console.log(textOutput)
+        const textOutput = text.trim()
+        result = fuzzySearch(emailList, textOutput)
         say.speak(textOutput)
         res.redirect('/')
       }
