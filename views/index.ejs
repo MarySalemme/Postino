@@ -7,24 +7,35 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Postino</title>
   <script defer src="index.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <h3>Postino</h3>
+  <nav class="navbar navbar-default">
+    <h3>Postino</h3>
+  </nav>
 
-  <div id="confirmation">
-    <form action="/confirm" method="post">
-      <textarea name="user-input" cols="40" rows="10">
-        <%=output%>
-      </textarea>
-      <input type="submit" value="Confirm">
-    </form>
-  </div>
   
   <div class="container">
-    <video id="video" width="640" height="480" autoplay></video>
+    <% if (output) { %>
+      <div class="confirm-email">
+        <form action="/confirm" method="post">
+          <textarea name="user-input" cols="40" rows="2">
+            <%=output%>
+          </textarea>
+          <div class="controls">
+            <input class="btn btn-dark" type="submit" value="Confirm">
+          </div>
+        </form>
+      </div>
+    <% } %>
+    <div class="preview">
+      <video id="video" width="640" height="400" autoplay></video>
+    </div>
     <div class="controls">
-      <a href="#" id="take-photo" title="Take Photo"> Take Photo </a>
+      <a href="#" class="btn btn-dark" id="take-photo" title="Take Photo"> Take Photo </a>
     </div>
   </div>
 </body>

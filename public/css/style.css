@@ -1,0 +1,33 @@
+.navbar-default{
+  background-color:#af0f27;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.preview{
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5%;
+}
+
+.controls{
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+.confirm-email{
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5%;
+  padding: 1.2%;
+}
+
+.confirmation{
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  padding: 1.2%;
+}

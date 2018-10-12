@@ -63,7 +63,7 @@ server.post('/read', type, (req, res) => {
 
 server.post('/confirm', (req, res) => {
   emailer(req.body['user-input'])
-  res.sendStatus(200)
+  res.render('confirmation', { output: req.body['user-input'] })
 })
 
 server.listen(port, () => {
