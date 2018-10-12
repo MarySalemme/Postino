@@ -52,6 +52,7 @@ server.post('/read', type, (req, res) => {
         throw err
       }
       else {
+        console.log('Text:', JSON.stringify(textOutput))
         const textOutput = text.trim()
         result = fuzzySearch(emailList, textOutput)
         say.speak(textOutput)
