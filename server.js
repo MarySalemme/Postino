@@ -39,7 +39,6 @@ server.get('/', (req, res) => {
 
 let type = upload.single('photo')
 
-
 server.post('/read', type, (req, res) => {
   console.log('Recieved photo')
   const tempPath = req.file.path
@@ -56,7 +55,6 @@ server.post('/read', type, (req, res) => {
         const textOutput = text.trim()
         result = fuzzySearch(emailList, textOutput)
         say.speak(textOutput)
-        emailer(result)
         res.redirect('/')
       }
     })
@@ -64,7 +62,7 @@ server.post('/read', type, (req, res) => {
 })
 
 server.post('/confirm', (req, res) => {
-  console.log(req.body)
+  emailer(req.body['user-input'])
   res.sendStatus(200)
 })
 
