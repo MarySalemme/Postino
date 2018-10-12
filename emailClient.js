@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-const dotenv = require('dotenv').config();
+const nodemailer = require('nodemailer')
+const dotenv = require('dotenv').config()
 
 const emailer = email => {
 	nodemailer.createTestAccount((err, account) => {
