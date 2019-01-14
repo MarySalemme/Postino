@@ -3,11 +3,11 @@ const path = require('path')
 const express = require('express')
 const multer = require("multer")
 const read = require('tesseractocr')
+const mongoose = require('mongoose')
 
 const say = require('say')
 
-const emailList = require('./emailList.js')
-const fuzzySearch = require('./searcher') 
+const fuzzySearch = require('./searcher')
 const emailer = require('./emailClient')
 
 
@@ -25,6 +25,18 @@ const handleError = (err, res) => {
     .contentType("text/plain")
     .end("Oops! Something went wrong!")
 }
+
+const mongoDB = 'mongodb://localhost:27017/test'
+mongoose.connect(mongoDB)
+mongoose.Promise = global.Promise;
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+db.once('open', function () {
+  console.log('connected!')
+})
+
+const Email = mongoose.model('email',
+  new mongoose.Schema({ name: String, email: String, id: Number }), 'emails')
 
 const server = express()
 
@@ -53,9 +65,13 @@ server.post('/read', type, (req, res) => {
       }
       else {
         const textOutput = text.trim()
-        result = fuzzySearch(emailList, textOutput)
-        say.speak(textOutput)
-        res.redirect('/')
+        console.log('Text output >>>>>>>>>>>>>>>>>>>>>>>>>>', textOutput)
+
+        Email.find({}, (err, emailList) => { 
+          result = fuzzySearch(emailList, textOutput)
+          say.speak(textOutput)
+          res.redirect('/')
+        })
       }
     })
   })
