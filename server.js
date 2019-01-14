@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
@@ -25,8 +26,12 @@ const handleError = (err, res) => {
     .contentType("text/plain")
     .end("Oops! Something went wrong!")
 }
+const user = process.env.USER_NAME
+const password = process.env.PASSWORD
 
-const mongoDB = 'mongodb://localhost:27017/test'
+const mongoDB = `mongodb://${user}:${password}@ds157064.mlab.com:57064/postino`
+console.log(mongoDB);
+
 mongoose.connect(mongoDB)
 mongoose.Promise = global.Promise;
 const db = mongoose.connection
